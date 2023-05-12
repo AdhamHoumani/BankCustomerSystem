@@ -1,0 +1,125 @@
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-12">
+        <div class="container">
+            <div class="row">
+                <button class="btn btn-success col-auto" (click)="openAddCustomerModal(addCustomer)">
+                    {{'New Customer' | translate}}
+                </button>
+            </div>
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">{{'Name' | translate}}</th>
+                    <th scope="col">{{'Email' | translate}}</th>
+                    <th scope="col">{{'Phone Number' | translate}}</th>
+                    <th scope="col">{{'Address' | translate}}</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let customer of customers">
+                    <td>
+                        <span class="cursor-pointer text-light-blue" (click)="goToCustomerPage(customer.id)">
+                            <b>{{customer.firstName}} {{customer.lastName}}</b>
+                        </span>
+                    </td>
+                    <td>{{customer.email}}</td>
+                    <td>{{customer.phoneNumber}}</td>
+                    <td>{{customer.address}}</td>
+                    <td>
+                        <div class="row">
+                            <button class="btn btn btn-secondary col-auto mx-1" (click)="updateCustomer(customer,addCustomer)"><i class="bi bi-pen"></i> {{'Update' | translate}}</button>
+                            <button class="btn btn btn-danger col-auto mx-1" (click)="deleteCustomer(customer.id, true, confirmDelete)"><i class="bi bi-trash"></i> {{'Delete' | translate}}</button>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+<ng-template #addCustomer let-modal class="add-customer-modal">
+  <section id="ngx" [dir]="getDirection()">
+    <div class="modal-header">
+      <h5 *ngIf="!isUpdateAction" class="modal-title fw-bold mb-2 text-orange">{{'New Customer' | translate}}</h5>
+      <h5 *ngIf="isUpdateAction" class="modal-title fw-bold mb-2 text-orange">{{'Update Customer' | translate}}</h5>
+      <button type="button" class="close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-body m-5">
+            <form [formGroup]="customerForm" (submit)="submit()">
+
+                <div class="row">
+                    <div class="form-outline form-white mb-4 col-6">
+                      <label class="form-label" for="firstName">{{'First Name'|translate}}</label>
+                      <input type="text" formControlName="firstName" id="firstName" class="form-control form-control-lg" />
+                      <span *ngIf="displayMessages['firstName']" class="text-danger" >
+                        {{displayMessages["firstName"] | translate}}
+                      </span>
+                    </div>
+                    <div class="form-outline form-white mb-4 col-6">
+                      <label class="form-label" for="lastName">{{'Last Name'|translate}}</label>
+                      <input type="text" formControlName="lastName" id="lastName" class="form-control form-control-lg" />
+                      <span *ngIf="displayMessages['lastName']" class="text-danger" >
+                        {{displayMessages["lastName"] | translate}}
+                      </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-outline form-white mb-4 col-6">
+                      <label class="form-label" for="email">{{'Email'|translate}}</label>
+                      <input type="email" formControlName="email" id="email" class="form-control form-control-lg" />
+                      <span *ngIf="displayMessages['email']" class="text-danger" >
+                        {{displayMessages["email"] | translate}}
+                      </span>
+                    </div>
+                    <div class="form-outline form-white mb-4 col-6">
+                      <label class="form-label" for="phoneNumber">{{'Phone Number'|translate}}</label>
+                      <input type="phoneNumber" formControlName="phoneNumber" id="phoneNumber" class="form-control form-control-lg" />
+                      <span *ngIf="displayMessages['phoneNumber']" class="text-danger" >
+                        {{displayMessages["phoneNumber"] | translate}}
+                      </span>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="form-outline form-white mb-4 col-12">
+                    <label class="form-label" for="address">{{'Address'|translate}}</label>
+                    <input type="textarea" formControlName="address" id="address" class="form-control form-control-lg" />
+                    <span *ngIf="displayMessages['address']" class="text-danger" >
+                      {{displayMessages["address"] | translate}}
+                    </span>
+                  </div>
+              </div>
+              <div class="modal-footer pt-5">
+                <button type="submit" class="btn btn-success mr-2 text-left">{{'Save' | translate}}</button>
+              </div>
+              </form>
+        </div>
+    </div>
+  </section>
+ </ng-template>
+<ng-template #confirmDelete let-modal  class="add-customer-modal">
+  <section [dir]="getDirection()">
+    <div class="modal-header">
+      <h5  class="modal-title fw-bold mb-2 text-orange">{{'Delete Confirmation' | translate}}</h5>
+    </div>
+    <div class="modal-body">
+      <p class="modal-title fw-bold mb-2">{{'This Customer has Active accounts, you can check his accounts before, or delete any way.' | translate}}</p>
+    </div>
+    <div class="modal-footer">
+      <div class="row content-end">
+        <div class="col-auto">
+          <button class="btn btn-outline-success" (click)="close()">{{'Cancel' | translate}}</button>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-outline-danger" (click)="deleteCustomer(customerIdToDelete, false, confirmDelete)">{{'Delete any way!' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-template>

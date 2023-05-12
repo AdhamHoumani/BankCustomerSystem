@@ -1,0 +1,14 @@
+<body class="light-gray" dir="ltr">
+    <div class="row justify-content-end">
+        <div class="col-2">
+            <span class="m-2 cursor-pointer text-light-blue" (click)="changeLanguage('en')">EN</span>
+            <span class="m-2 cursor-pointer text-light-blue" (click)="changeLanguage('ar')">AR</span>
+        </div>
+    </div>
+    <div [dir]="direction">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="light-gray mt-4">
+
+    </div>
+</body>

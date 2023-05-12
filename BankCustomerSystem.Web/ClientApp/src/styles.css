@@ -1,0 +1,60 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "./assets/global/colors.css";
+.background{
+    background-size: cover;
+}
+.content-end{
+    justify-content: flex-end;
+}
+.content-start{
+    justify-content: flex-start;
+}
+.content-center{
+    justify-content: center;
+}
+.vertical-content-center{
+    align-items: center;
+}
+.spaces-between{
+    justify-content: space-between;
+}
+.full-width{
+    width: 100%;
+}
+.bottom-items{
+    align-items: flex-end;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+.no-scrolling
+{
+    margin: 0;
+    height: 100%;
+     overflow: hidden
+}
+.toast-message-rtl{
+    text-align: right;
+}
+
+.toast-message-ltr{
+    text-align: left;
+}
+
+.add-customer-modal{
+    width: 50%;
+    z-index: 0;
+}
+
+.pos-balance{
+    color: green;
+}
+
+.neg-balance{
+    color: red;
+}
+
+html, body { height: 100%; }
+body { margin: 0;}

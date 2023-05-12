@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-12">
+    <div class="container">
+      <div class="row spaces-between">
+        <button class="btn btn btn-success col-auto" (click)="openAddAccountModal(addAccount)">
+          {{'New Account' | translate}}
+        </button>
+        <button class="btn btn btn-outline-success col-auto" (click)="back()">
+          {{'Back' | translate}}
+        </button>
+      </div>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">{{'Account Number' | translate}}</th>
+            <th scope="col">{{'Currency' | translate}}</th>
+            <th scope="col"><i matTooltip="{{'CLick on the Balance to Show Transactions History.' | translate}}">{{'Balance*' |
+                translate}}</i></th>
+            <th scope="col">{{'Account Type' | translate}}</th>
+            <th scope="col">{{'Account Status' | translate}}</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let account of accounts">
+            <td>
+              <span class="text-light-blue">
+                {{account.accountNumber}}
+              </span>
+            </td>
+            <td>
+              <span class="text-light-blue">
+                {{account.currency}}
+              </span>
+            </td>
+            <td [class]="account.balance > 0 ? positiveBalanceClass : negativeBalanceClass">
+              <span class="cursor-pointer"
+                (click)="openTransactionsTemplate(account,transactionsTemplate)"><b>{{account.balance}}</b></span>
+            </td>
+            <td>{{account.accountType | translate}}</td>
+            <td>{{account.accountStatus | translate}}</td>
+            <td>
+              <div class="row">
+                <button class="btn btn btn-secondary col-auto mx-1" (click)="updateCustomer(account,addAccount)"><i
+                    class="bi bi-pen"></i> {{'Update' | translate}} </button>
+                <button class="btn btn btn-danger col-auto mx-1" (click)="deleteAccount(account.id)"><i
+                    class="bi bi-trash"></i> {{'Delete' | translate}}</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-2"></div>
+</div>
+<ng-template #addAccount let-modal class="add-customer-modal">
+  <section id="ngx" [dir]="getDirection()">
+    <div class="modal-header">
+      <h5 *ngIf="!isUpdateAction" class="modal-title fw-bold mb-2 text-orange">{{'New Account' | translate}}</h5>
+      <h5 *ngIf="isUpdateAction" class="modal-title fw-bold mb-2 text-orange">{{'Update Account' | translate}}</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-body m-5">
+        <form [formGroup]="accountForm" (submit)="submit()">
+
+          <div class="row">
+            <div class="form-outline form-white mb-4 col-6">
+              <label class="form-label" for="accountType">{{'Account Type'|translate}}</label>
+              <select class="form-select" formControlName="accountType" id="accountType"
+                [(ngModel)]="selectedAccountType">
+                <option *ngFor="let type of accountTypes" [value]="type.name">{{ type.description | translate}}</option>
+              </select>
+            </div>
+            <div class="form-outline form-white mb-4 col-6">
+              <label class="form-label" for="accountStatus">{{'Account Status'|translate}}</label>
+              <select class="form-select" formControlName="accountStatus" id="accountStatus"
+                [(ngModel)]="selectedAccountStatus">
+                <option *ngFor="let status of accountStatuses" [value]="status.name">{{ status.description | translate}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-outline form-white mb-4 col-12">
+              <label class="form-label" for="accountNumber">{{'Account Number'|translate}}</label>
+              <input type="text" formControlName="accountNumber" id="accountNumber"
+                class="form-control form-control-lg" />
+              <span *ngIf="displayMessages['accountNumber']" class="text-danger">
+                {{displayMessages["accountNumber"] | translate}}
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-outline form-white mb-4 col-6">
+              <label class="form-label" for="currency">{{'Currency'|translate}}</label>
+              <input type="text" formControlName="currency" id="currency" class="form-control form-control-lg" />
+              <span *ngIf="displayMessages['currency']" class="text-danger">
+                {{displayMessages["currency"] | translate}}
+              </span>
+            </div>
+            <div class="form-outline form-white mb-4 col-6">
+              <label class="form-label" for="balance">{{'Initial Balance'|translate}}</label>
+              <input type="text" formControlName="balance" id="balance" class="form-control form-control-lg" />
+              <span *ngIf="displayMessages['balance']" class="text-danger">
+                {{displayMessages["balance"] | translate}}
+              </span>
+            </div>
+          </div>
+          <div class="modal-footer pt-5">
+            <button type="submit" class="btn btn-success mr-2 text-left">{{'Save' | translate}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+<ng-template #transactionsTemplate let-modal class="add-customer-modal">
+  <section id="ngx" [dir]="getDirection()">
+    <div class="modal-header">
+      <div class="col-sm-11 justify-content-start">
+        <button *ngIf="transactionsAccount.accountStatus == 'ACTIVE'" class="btn btn-outline-success mx-2" (click)="addTransaction('DEPOSIT')"><i class="bi bi-plus-circle-dotted"></i>
+          {{'Deposit' | translate}}</button>
+        <button *ngIf="transactionsAccount.accountStatus == 'ACTIVE' && transactionsAccount.balance > 0" class="btn btn-outline-danger mx-2" (click)="addTransaction('WITHDRAW')"><i class="bi bi-dash-circle-dotted"></i>
+          {{'Withdraw' | translate}}</button>
+      </div>
+      <div class="col-sm-1">
+        <button type="button" class="close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="form-body m-5">
+        <div class="col">
+          <div><span><b>{{'Account Number' | translate}} : </b>{{transactionsAccount.accountNumber}} &nbsp;</span></div>
+          <div><span><b>{{'Initial balance' | translate}} : </b> {{transactionsAccount.currency}} {{transactionsAccount.initialBalance}}&nbsp;</span></div>
+          <div><span><b>{{'Current balance' | translate}} : </b> {{transactionsAccount.currency}} {{transactionsAccount.balance}}&nbsp;</span></div>
+        </div>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">{{'Date' | translate}}</th>
+              <th scope="col">{{'Amount' | translate}}</th>
+              <th scope="col">{{'Type' | translate}}</th>
+              <th scope="col">{{'Status' | translate}}</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of accountTransactions">
+              <td>{{transaction.createdOn}}</td>
+              <td [class]="transaction.transactionType == 'DEPOSIT' ? positiveBalanceClass : negativeBalanceClass">
+                {{transaction.amount}}
+              </td>
+              <td [class]="transaction.transactionStatus == 'SUCCESS' ? positiveBalanceClass : negativeBalanceClass">
+                {{transaction.transactionStatus | translate}}
+              </td>
+              <td>{{transaction.transactionType | translate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</ng-template>

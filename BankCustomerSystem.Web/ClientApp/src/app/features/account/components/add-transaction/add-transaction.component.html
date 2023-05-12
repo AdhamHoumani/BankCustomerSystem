@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="container">
+            <div class="dark-blue card text-white" style="border-radius: 1rem; border-style: hidden;">
+                <div class="card-body signup-card-padding text-left">
+                  <form [formGroup]="transactionForm" (submit)="submit()" class="mb-md-5 mt-md-4">
+
+                    <div class="row vertical-content-center spaces-between">
+                      <div class="col-8">
+                        <h2 class="fw-bold mb-2 text-orange">
+                            <i *ngIf="transactionType == 'DEPOSIT'" class="bi bi-plus-circle-dotted"></i>
+                            <i *ngIf="transactionType == 'WITHDRAW'" class="bi bi-dash-circle-dotted"></i>
+                            &nbsp;{{transactionTypeLabel|translate}}
+                        </h2>
+                        <p class="text-white-50 mb-5">{{'Please provide us with these information'|translate}}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-outline form-white mb-4 col-6">
+                          <label class="form-label" for="amount">{{'Amount'|translate}}</label>
+                          <input type="number" formControlName="amount" id="amount" class="form-control" />
+                          <span *ngIf="displayMessages['amount']" class="text-danger" >
+                            {{displayMessages["amount"] | translate}}
+                          </span>
+                        </div>
+                        <div class="form-outline form-white mb-4 col-6">
+                          <label class="form-label" for="status">{{'Status'|translate}}</label>
+                          <select class="form-select" formControlName="status" id="status"
+                            [(ngModel)]="transactionStatus">
+                            <option *ngFor="let status of transactionStatuses" [value]="status.name">{{ status.description | translate}}
+                            </option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <button class="col-md-2 m-3 btn btn-outline-light btn-lg" type="button" (click)="back()">{{'Back'|translate}}</button>
+                      <button class="col-md-2 m-3 btn btn-success btn-lg" type="submit">{{'Confirm'|translate}}</button>
+                    </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-2"></div>
+  </div>

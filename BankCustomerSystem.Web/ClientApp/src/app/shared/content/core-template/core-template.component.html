@@ -1,0 +1,16 @@
+<div [dir]="direction" style="overflow-x: hidden;">
+
+    <div class="toolbar light-blue">
+        <div class="col-10">
+            <img width="35" alt="A2Z Logo" src="./../../../favicon.ico"/>
+            <span class="text-light-gray">{{'Welcome'|translate}}</span>
+        </div>
+        <div class="col-1">
+            <span class="text-orange cursor-pointer m-1"  (click)="changeLanguage('en')">EN</span>
+            <span class="text-orange cursor-pointer m-1" (click)="changeLanguage('ar')">AR</span>
+        </div>
+    </div>
+    <div [class]="contentClass">
+        <router-outlet class="m-5"></router-outlet>
+    </div>
+</div>
