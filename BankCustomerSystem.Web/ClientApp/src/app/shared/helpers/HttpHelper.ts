@@ -22,7 +22,7 @@ export class HttpHelper{
         }
         headers = headers.append(HeadersKeys.Language,localStorage.getItem(LocalStorageKeys.CurrentLang) == 'ar' ? 'ar' : 'en')
         return this.http.get<ApiResponse>(url,{headers:headers}).pipe(map((response=>{
-            this.toastr.showMessages(response.messages);
+            this.toastr.showMessages(response.userMessages);
             if(response.status == ApiStatusEnum.Success)
             {
                 return response.data as T;
@@ -44,7 +44,7 @@ export class HttpHelper{
         }
         headers = headers.append(HeadersKeys.Language,localStorage.getItem(LocalStorageKeys.CurrentLang) == 'ar' ? 'ar' : 'en')
         return this.http.post<ApiResponse>(url,body,{headers:headers}).pipe(map((response=>{
-            this.toastr.showMessages(response.messages);
+            this.toastr.showMessages(response.userMessages);
             if(response.status == ApiStatusEnum.Success)
             {
                 return response.data as T;
@@ -66,7 +66,7 @@ export class HttpHelper{
         }
         headers = headers.append(HeadersKeys.Language,localStorage.getItem(LocalStorageKeys.CurrentLang) == 'ar' ? 'ar' : 'en')
         return this.http.put<ApiResponse>(url,body,{headers:headers}).pipe(map((response=>{
-            this.toastr.showMessages(response.messages);
+            this.toastr.showMessages(response.userMessages);
             if(response.status == ApiStatusEnum.Success)
             {
                 return response.data as T;
@@ -88,7 +88,7 @@ export class HttpHelper{
         }
         headers = headers.append(HeadersKeys.Language,localStorage.getItem(LocalStorageKeys.CurrentLang) == 'ar' ? 'ar' : 'en')
         return this.http.delete<ApiResponse>(url,{headers:headers}).pipe(map((response=>{
-            this.toastr.showMessages(response.messages);
+            this.toastr.showMessages(response.userMessages);
             if(response.status == ApiStatusEnum.Success)
             {
                 return response.data as T;

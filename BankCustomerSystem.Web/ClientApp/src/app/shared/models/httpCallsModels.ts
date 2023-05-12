@@ -2,7 +2,7 @@ export interface ApiResponse
 {
     data : any,
     status : number,
-    messages : ApiMessage[],
+    userMessages : ApiMessage[],
     developerMessage : string
 }
 
